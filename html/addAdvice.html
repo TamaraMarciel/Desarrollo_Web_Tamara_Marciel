@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+		<title>Agregar Aviso de Adopción</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="../css/main.css">
+		<noscript><link rel="stylesheet" href="../css/noscript.css"></noscript>
+	</head>
+  <body class="is-preload">
+    
+    <div id="wrapper">
+      <header id="header">
+        <h1>Agregar Aviso de Adopción</h1>
+      </header>
+
+      <div id="main">
+
+        <section id="content" class="main">
+
+          
+          <!-- Formulario -->
+          <section>
+            <h2>Formulario</h2>
+            <form id="advice-form" method="post" action="#">
+              <h3>¿Dónde?</h3>
+
+              <div id="Where">
+
+                <div class="row gtr-uniform">
+                  <div class="col-6 col-12-xsmall">
+                    <label for="select-region">Región</label>
+                    <select name="select-region" id="select-region" required>
+                      <option value="">Seleccione una region</option>
+                    </select>
+                  </div>
+
+                  <div class="col-6 col-12-xsmall">
+                    <label for="select-comuna">Comuna</label>
+                    <select name="select-comuna" id="select-comuna" required>
+                      <option value="">Seleccione una comuna</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label for="sector">Sector</label>
+                  <input type="text" name="sector" id="sector" placeholder="Describa el sector" maxlength="100">
+                </div>
+              </div>
+
+              <br>
+              <br>
+
+              <h3>¿Contacto de esta publicación?</h3>
+              <div id="Contact">
+                <div class="row gtr-uniform">
+                  <div class="col-6 col-12-xsmall">
+                    <label for="input-name">Nombre</label>
+                    <input type="text" name="input-name" id="input-name" placeholder="Ingrese su nombre" minlength="3" maxlength="200">
+                  </div>
+                  <div class="col-6 col-12-xsmall">
+                    <label for="input-email">Email</label>
+                    <input type="email" name="input-email" id="input-email" placeholder="Ingrese su email" maxlength="100">
+                  </div>
+                </div>
+
+                <div class="row gtr-uniform">
+                  <div class="col-6 col-12-xsmall">
+                    <label for="input-contact">Contactar por</label>
+                    <select name="input-contact" id="input-contact">
+                      <option value="">Seleccione un metodo de contacto</option>
+                    </select>
+                  </div>
+                  <div class="col-6 col-12-xsmall">
+                    <label for="input-cel">Número de celular</label>
+                    <input type="tel" name="input-cel" id="input-cel" placeholder="Ingrese su número de celular" minlength="3" maxlength="200">
+                  </div>
+                  
+                </div>
+
+                <div class="col-12">
+                    <label for="input-contact-info" id="contact-info-label" style="display: none;">ID o URL de contacto</label>
+                    <input type="text" name="input-contact-info" id="input-contact-info" placeholder="Usuario o enlace de la red social" minlength="4" maxlength="50" style="display: none;">
+                </div>
+
+              </div>
+
+              <br>
+              <br>
+
+              <h3>¿Qué mascota ofrece en adopción?</h3>
+              <div id="What">
+                <div class="row gtr-uniform">
+
+                  <div class="col-6 col-12-xsmall">
+                    <label for="input-type">Tipo</label>
+                    <select name="input-type" id="input-type" required>
+                      <option value="">Seleccione tipo</option>
+                    </select>
+                  </div>
+
+                  <div class="col-6 col-12-xsmall">
+                    <label for="input-cant">Cantidad</label>
+                    <input type="number" name="input-cant" id="input-cant" placeholder="Ingrese la cantidad">
+                  </div>
+
+                  <div class="col-6 col-12-xsmall">
+                    <label for="input-age">Edad</label>
+                    <input type="number" name="input-age" id="input-age" placeholder="Ingrese la edad">
+                  </div>
+
+                  <div class="col-6 col-12-xsmall">
+                    <label for="input-unity">Meses/Años</label>
+                    <select name="input-unity" id="input-unity" required>
+                      <option value="">Seleccione </option>
+                    </select>
+                  </div>
+
+                </div>
+
+                <div class="col-12">
+                  <label for="input-date">Fecha disponible para entrega</label>
+                  <input type="datetime-local" name="input-date" id="input-date">
+                </div>
+
+                <div class="col-12">
+                  <label for="input-description">Descripción</label>
+                  <textarea name="input-description" id="input-description" placeholder="Describa el sector" cols="50" rows="10"></textarea>
+                </div>
+
+                <div class="row gtr-uniform" id="file-inputs-row">
+                  <div class="col-6 col-12-xsmall">
+                    <label for="input-files">Foto 1</label>
+                    <input type="file" name="input-files" id="input-files" accept="image/*" required>
+                  </div>
+                  
+                  <div class="col-6 col-12-xsmall" id="add-button-container">
+                    <ul class="actions">
+                      <li><a href="#" id="image-btn" class="button primary fit">Agregar otra foto</a></li>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+
+            </form>
+							
+					</section>
+
+          <!-- Boton para agregar aviso -->
+          <div>
+            <div class="col-12">
+              <ul class="actions stacked">
+								<li><a href="#" id="submit-btn" class="button primary fit">Agregar este aviso de adopción</a></li>
+							</ul>
+            </div>
+          </div>
+
+
+        </section>
+
+      </div>
+
+    </div>
+    <script src="../js/region_comuna.js"></script>
+    <script src="../js/addAdvice.js"></script>
+  </body>
+
+</html>
