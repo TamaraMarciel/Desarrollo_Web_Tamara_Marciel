@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Estadísticas - Adopta{% endblock %}
+
+{% block header %}Estadísticas{% endblock %}
+
+{% block content %}
+
+<!-- Gráficos de ejemplo -->
+<section>
+    <div class="row">
+        <div class="col-4 col-12-medium">
+            <h2>Avisos por día</h2>
+            <span class="image fit" id="lineal-chart">
+                <img src="{{ url_for('static', filename='images/gráfico1.png') }}" alt="Gráfico de avisos por día">
+            </span>
+        </div>
+        
+        <div class="col-4 col-12-medium">
+            <h2>Tipo de mascota</h2>
+            <span class="image fit" id="pie-chart">
+                <img src="{{ url_for('static', filename='images/gráfico2.png') }}" alt="Gráfico de tipo de mascota">
+            </span>
+        </div>
+        
+        <div class="col-4 col-12-medium">
+            <h2>Avisos por mes</h2>
+            <span class="image fit" id="bar-chart">
+                <img src="{{ url_for('static', filename='images/gráfico3.png') }}" alt="Gráfico de avisos por mes">
+            </span>
+        </div>
+    </div>
+</section>
+
+<hr>
+
+
+<hr>
+
+<!-- Botones para volver -->
+<section>
+    <div class="row">
+        <div class="col-6 col-12-medium">
+            <ul class="actions stacked">
+                <li><a href="{{ url_for('index') }}" class="button primary fit">Volver a Portada</a></li>
+            </ul>
+        </div>
+        <div class="col-6 col-12-medium">
+            <ul class="actions stacked">
+                <li><a href="{{ url_for('listar_avisos') }}" class="button fit">Ver Avisos</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Avisos de Adopción{% endblock %}
+
+{% block header %}Avisos de Adopción{% endblock %}
+
+{% block content %}
+<!-- Avisos -->
+<section>
+    <div id="advices" class="main">
+        {% if avisos %}
+        <div class="table-wrapper">
+            <table class="alt adoption-table">
+                <thead>
+                    <tr>
+                        <th>Fecha Publicación</th>
+                        <th>Fecha Entrega</th>
+                        <th>Comuna</th>
+                        <th>Sector</th>
+                        <th>Cantidad Tipo Edad</th>
+                        <th>Nombre Contacto</th>
+                        <th>Foto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for aviso in avisos %}
+                    <tr onclick="window.location='{{ url_for('detalle_aviso', aviso_id=aviso.id) }}';" style="cursor: pointer;">
+                        <td>{{ aviso.fecha_ingreso|formato_fecha }}</td>
+                        <td>{{ aviso.fecha_entrega|formato_fecha }}</td>
+                        <td>{{ aviso.comuna.nombre }}</td>
+                        <td>{{ aviso.sector if aviso.sector else '-' }}</td>
+                        <td>{{ aviso.cantidad }} {{ aviso.tipo }} {{ aviso.edad|edad_texto(aviso.unidad_medida) }}</td>
+                        <td>{{ aviso.nombre }}</td>
+                        <td class="photo-cell">
+                            {% if aviso.fotos %}
+                                <img src="{{ url_for('static', filename=aviso.fotos[0].ruta_archivo) }}" alt="Foto de {{ aviso.tipo }}">
+                            {% else %}
+                                <img src="{{ url_for('static', filename='images/no-image.jpg') }}" alt="Sin imagen">
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Paginación -->
+        <div class="pagination">
+            <ul class="actions">
+                {% if has_prev %}
+                <li>
+                    <a href="{{ url_for('listar_avisos', page=page-1) }}" class="button">
+                        ← Anterior
+                    </a>
+                </li>
+                {% endif %}
+                
+                <li style="margin: 0 1em; line-height: 2.5em;">
+                    Página {{ page }} de {{ total_pages }}
+                </li>
+                
+                {% if has_next %}
+                <li>
+                    <a href="{{ url_for('listar_avisos', page=page+1) }}" class="button">
+                        Siguiente →
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        {% else %}
+        <p>No hay avisos de adopción disponibles en este momento.</p>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Botones para volver -->
+<section>
+    <div class="row">
+        <div class="col-6 col-12-medium">
+            <ul class="actions stacked">
+                <li><a href="{{ url_for('index') }}" class="button primary fit">Volver a Portada</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}

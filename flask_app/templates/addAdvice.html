@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar Aviso de Adopción{% endblock %}
+
+{% block header %}Agregar Aviso de Adopción{% endblock %}
+
+{% block content %}
+<!-- Formulario -->
+<section>
+    <h2>Formulario</h2>
+    <form id="advice-form" method="post" action="{{ url_for('procesar_aviso') }}" enctype="multipart/form-data">
+        <h3>¿Dónde?</h3>
+
+        <div id="Where">
+            <div class="row gtr-uniform">
+                <div class="col-6 col-12-xsmall">
+                    <label for="select-region">Región</label>
+                    <select name="select-region" id="select-region" required>
+                        <option value="">Seleccione una región</option>
+                        {% for region in regiones %}
+                        <option value="{{ region.id }}" {% if form_data and form_data.get('select-region') == region.id|string %}selected{% endif %}>
+                            {{ region.nombre }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-6 col-12-xsmall">
+                    <label for="select-comuna">Comuna</label>
+                    <select name="select-comuna" id="select-comuna" required>
+                        <option value="">Seleccione una comuna</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="sector">Sector</label>
+                <input type="text" name="sector" id="sector" placeholder="Describa el sector" maxlength="100" 
+                       value="{{ form_data.get('sector', '') if form_data else '' }}">
+            </div>
+        </div>
+
+        <br>
+        <br>
+
+        <h3>¿Contacto de esta publicación?</h3>
+        <div id="Contact">
+            <div class="row gtr-uniform">
+                <div class="col-6 col-12-xsmall">
+                    <label for="input-name">Nombre</label>
+                    <input type="text" name="input-name" id="input-name" placeholder="Ingrese su nombre" 
+                           minlength="3" maxlength="200" required
+                           value="{{ form_data.get('input-name', '') if form_data else '' }}">
+                </div>
+                <div class="col-6 col-12-xsmall">
+                    <label for="input-email">Email</label>
+                    <input type="email" name="input-email" id="input-email" placeholder="Ingrese su email" 
+                           maxlength="100" required
+                           value="{{ form_data.get('input-email', '') if form_data else '' }}">
+                </div>
+            </div>
+
+            <div class="row gtr-uniform">
+                <div class="col-6 col-12-xsmall">
+                    <label for="input-contact">Contactar por</label>
+                    <select name="input-contact" id="input-contact">
+                        <option value="">Seleccione un método de contacto</option>
+                        <option value="whatsapp" {% if form_data and form_data.get('input-contact') == 'whatsapp' %}selected{% endif %}>WhatsApp</option>
+                        <option value="telegram" {% if form_data and form_data.get('input-contact') == 'telegram' %}selected{% endif %}>Telegram</option>
+                        <option value="X" {% if form_data and form_data.get('input-contact') == 'X' %}selected{% endif %}>X (Twitter)</option>
+                        <option value="instagram" {% if form_data and form_data.get('input-contact') == 'instagram' %}selected{% endif %}>Instagram</option>
+                        <option value="tiktok" {% if form_data and form_data.get('input-contact') == 'tiktok' %}selected{% endif %}>TikTok</option>
+                        <option value="otra" {% if form_data and form_data.get('input-contact') == 'otra' %}selected{% endif %}>Otra</option>
+                    </select>
+                </div>
+                <div class="col-6 col-12-xsmall">
+                    <label for="input-cel">Número de celular</label>
+                    <input type="tel" name="input-cel" id="input-cel" placeholder="Ingrese su número de celular" 
+                           minlength="3" maxlength="15"
+                           value="{{ form_data.get('input-cel', '') if form_data else '' }}">
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="input-contact-info" id="contact-info-label" style="display: none;">ID o URL de contacto</label>
+                <input type="text" name="input-contact-info" id="input-contact-info" 
+                       placeholder="Usuario o enlace de la red social" minlength="4" maxlength="150" 
+                       style="display: none;"
+                       value="{{ form_data.get('input-contact-info', '') if form_data else '' }}">
+            </div>
+        </div>
+
+        <br>
+        <br>
+
+        <h3>¿Qué mascota ofrece en adopción?</h3>
+        <div id="What">
+            <div class="row gtr-uniform">
+                <div class="col-6 col-12-xsmall">
+                    <label for="input-type">Tipo</label>
+                    <select name="input-type" id="input-type" required>
+                        <option value="">Seleccione tipo</option>
+                        <option value="gato" {% if form_data and form_data.get('input-type') == 'gato' %}selected{% endif %}>Gato</option>
+                        <option value="perro" {% if form_data and form_data.get('input-type') == 'perro' %}selected{% endif %}>Perro</option>
+                    </select>
+                </div>
+
+                <div class="col-6 col-12-xsmall">
+                    <label for="input-cant">Cantidad</label>
+                    <input type="number" name="input-cant" id="input-cant" placeholder="Ingrese la cantidad" 
+                           min="1" required
+                           value="{{ form_data.get('input-cant', '') if form_data else '' }}">
+                </div>
+
+                <div class="col-6 col-12-xsmall">
+                    <label for="input-age">Edad</label>
+                    <input type="number" name="input-age" id="input-age" placeholder="Ingrese la edad" 
+                           min="1" required
+                           value="{{ form_data.get('input-age', '') if form_data else '' }}">
+                </div>
+
+                <div class="col-6 col-12-xsmall">
+                    <label for="input-unity">Meses/Años</label>
+                    <select name="input-unity" id="input-unity" required>
+                        <option value="">Seleccione</option>
+                        <option value="m" {% if form_data and form_data.get('input-unity') == 'm' %}selected{% endif %}>Meses</option>
+                        <option value="a" {% if form_data and form_data.get('input-unity') == 'a' %}selected{% endif %}>Años</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="input-date">Fecha disponible para entrega</label>
+                <input type="datetime-local" name="input-date" id="input-date" required
+                       value="{{ form_data.get('input-date', '') if form_data else '' }}">
+            </div>
+
+            <div class="col-12">
+                <label for="input-description">Descripción</label>
+                <textarea name="input-description" id="input-description" placeholder="Describa la mascota" 
+                          cols="50" rows="10" maxlength="500">{{ form_data.get('input-description', '') if form_data else '' }}</textarea>
+            </div>
+
+            <div class="row gtr-uniform" id="file-inputs-row">
+                <div class="col-6 col-12-xsmall">
+                    <label for="input-files">Foto 1</label>
+                    <input type="file" name="input-files" id="input-files" accept="image/*" required>
+                </div>
+                
+                <div class="col-6 col-12-xsmall" id="add-button-container">
+                    <ul class="actions">
+                        <li><a href="#" id="image-btn" class="button primary fit">Agregar otra foto</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <!-- Botón para agregar aviso -->
+        <div class="col-12">
+            <ul class="actions stacked">
+                <li><button type="submit" class="button primary fit">Agregar este aviso de adopción</button></li>
+                <li><a href="{{ url_for('index') }}" class="button fit">Volver a Portada</a></li>
+            </ul>
+        </div>
+    </form>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/addAdvice.js') }}"></script>
+<script>
+// Script para cargar comunas dinámicamente desde Flask
+document.addEventListener('DOMContentLoaded', function() {
+    const regionSelect = document.getElementById('select-region');
+    const comunaSelect = document.getElementById('select-comuna');
+    const contactSelect = document.getElementById('input-contact');
+    
+    // Cargar comunas cuando cambia la región
+    regionSelect.addEventListener('change', function() {
+        const regionId = this.value;
+        comunaSelect.innerHTML = '<option value="">Seleccione una comuna</option>';
+        
+        if (regionId) {
+            fetch(`/get-comunas/${regionId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.comunas.forEach(comuna => {
+                        const option = document.createElement('option');
+                        option.value = comuna.id;
+                        option.textContent = comuna.nombre;
+                        comunaSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error al cargar comunas:', error));
+        }
+    });
+    
+    // Si hay datos del formulario (después de error), cargar las comunas correspondientes
+    {% if form_data and form_data.get('select-region') %}
+    const regionIdInicial = '{{ form_data.get("select-region") }}';
+    const comunaIdInicial = '{{ form_data.get("select-comuna") }}';
+    
+    if (regionIdInicial) {
+        fetch(`/get-comunas/${regionIdInicial}`)
+            .then(response => response.json())
+            .then(data => {
+                data.comunas.forEach(comuna => {
+                    const option = document.createElement('option');
+                    option.value = comuna.id;
+                    option.textContent = comuna.nombre;
+                    if (comuna.id == comunaIdInicial) {
+                        option.selected = true;
+                    }
+                    comunaSelect.appendChild(option);
+                });
+            });
+    }
+    {% endif %}
+    
+    // Mostrar/ocultar campo de contacto adicional
+    contactSelect.addEventListener('change', function() {
+        const contactInfo = document.getElementById('input-contact-info');
+        const contactInfoLabel = document.getElementById('contact-info-label');
+        
+        if (this.value) {
+            contactInfo.style.display = 'block';
+            contactInfoLabel.style.display = 'block';
+        } else {
+            contactInfo.style.display = 'none';
+            contactInfoLabel.style.display = 'none';
+        }
+    });
+    
+    // Si hay un valor seleccionado al cargar (después de error)
+    if (contactSelect.value) {
+        document.getElementById('input-contact-info').style.display = 'block';
+        document.getElementById('contact-info-label').style.display = 'block';
+    }
+    
+    // Prellenar fecha mínima (3 horas desde ahora)
+    const fechaInput = document.getElementById('input-date');
+    if (fechaInput && !fechaInput.value) {
+        const ahora = new Date();
+        ahora.setHours(ahora.getHours() + 3);
+        const fechaISO = ahora.toISOString().slice(0, 16);
+        fechaInput.value = fechaISO;
+        fechaInput.min = fechaISO;
+    }
+});
+</script>
+{% endblock %}

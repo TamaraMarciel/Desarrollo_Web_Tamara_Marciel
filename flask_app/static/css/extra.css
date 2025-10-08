@@ -1,0 +1,95 @@
+/* Estilos para mensajes flash */
+.flash-messages {
+    margin-bottom: 2em;
+}
+
+.alert {
+    padding: 1em;
+    margin-bottom: 1em;
+    border-radius: 4px;
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffc107;
+    color: #856404;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #17a2b8;
+    color: #0c5460;
+}
+
+/* Estilos para la tabla de adopciones */
+.adoption-table {
+    width: 100%;
+}
+
+.photo-cell img {
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.adoption-table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.adoption-table tbody tr:hover {
+    background-color: rgba(144, 144, 144, 0.075);
+}
+
+/* Estilos para paginación */
+.pagination {
+    margin-top: 2em;
+    text-align: center;
+}
+
+.pagination ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 0.5em;
+}
+
+/* Estilos para el detalle del aviso */
+.image.fit img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 1em;
+}
+
+/* Responsive para las imágenes en detalle */
+@media screen and (max-width: 980px) {
+    .photo-cell img {
+        max-width: 80px;
+        max-height: 80px;
+    }
+}
+
+@media screen and (max-width: 736px) {
+    .photo-cell img {
+        max-width: 60px;
+        max-height: 60px;
+    }
+}
