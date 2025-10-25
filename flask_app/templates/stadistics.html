@@ -6,34 +6,25 @@
 
 {% block content %}
 
-<!-- Gráficos de ejemplo -->
+<!-- Gráficos -->
 <section>
     <div class="row">
         <div class="col-4 col-12-medium">
             <h2>Avisos por día</h2>
-            <span class="image fit" id="lineal-chart">
-                <img src="{{ url_for('static', filename='images/gráfico1.png') }}" alt="Gráfico de avisos por día">
-            </span>
+            <div id="lineal-chart" style="min-height: 400px; width: 100%;"></div>
         </div>
         
         <div class="col-4 col-12-medium">
             <h2>Tipo de mascota</h2>
-            <span class="image fit" id="pie-chart">
-                <img src="{{ url_for('static', filename='images/gráfico2.png') }}" alt="Gráfico de tipo de mascota">
-            </span>
+            <div id="pie-chart" style="min-height: 400px; width: 100%;"></div>
         </div>
         
         <div class="col-4 col-12-medium">
             <h2>Avisos por mes</h2>
-            <span class="image fit" id="bar-chart">
-                <img src="{{ url_for('static', filename='images/gráfico3.png') }}" alt="Gráfico de avisos por mes">
-            </span>
+            <div id="bar-chart" style="min-height: 400px; width: 100%;"></div>
         </div>
     </div>
 </section>
-
-<hr>
-
 
 <hr>
 
@@ -52,4 +43,39 @@
         </div>
     </div>
 </section>
+
+{% endblock %}
+
+{% block scripts %}
+<!-- PASO 1: Cargar Highcharts desde CDN -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+<!-- PASO 2: Cargar nuestro script DESPUÉS de que Highcharts esté listo -->
+<script>
+// Esta función se ejecuta cuando Highcharts ya está disponible
+function loadEstadisticasScript() {
+    if (typeof Highcharts === 'undefined') {
+        console.log('Esperando a Highcharts...');
+        setTimeout(loadEstadisticasScript, 50);
+        return;
+    }
+    
+    console.log('✓ Highcharts cargado, ahora cargando estadisticas.js');
+    
+    // Crear y cargar el script de estadísticas
+    var script = document.createElement('script');
+    script.src = "{{ url_for('static', filename='js/estadisticas.js') }}";
+    script.onload = function() {
+        console.log('✓ estadisticas.js cargado exitosamente');
+    };
+    script.onerror = function() {
+        console.error('✗ Error al cargar estadisticas.js');
+        console.error('Verifica que el archivo existe en: static/js/estadisticas.js');
+    };
+    document.body.appendChild(script);
+}
+
+// Iniciar la carga
+loadEstadisticasScript();
+</script>
 {% endblock %}

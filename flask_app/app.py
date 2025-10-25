@@ -15,8 +15,6 @@ app.secret_key = "tu_clave_secreta_aqui_cambiar"  # Cambia esto
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max
 
-# Crear directorio de uploads si no existe
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
 # --- Helper Functions ---
@@ -105,7 +103,6 @@ def procesar_aviso():
         errores = validate_aviso_adopcion(request.form, request.files)
         
         if errores:
-            # Si hay errores, volver a mostrar el formulario
             for error in errores:
                 flash(error, "error")
             regiones = db.get_all_regions()
@@ -190,7 +187,7 @@ def listar_avisos():
         avisos, total = db.get_avisos_paginated(page=page, per_page=per_page)
         
         # Calcular información de paginación
-        total_pages = (total + per_page - 1) // per_page  # Redondeo hacia arriba
+        total_pages = (total + per_page - 1) // per_page 
         has_prev = page > 1
         has_next = page < total_pages
         
@@ -245,6 +242,38 @@ def edad_texto(edad, unidad):
     """Convierte edad y unidad a texto legible"""
     texto_unidad = "años" if unidad == "a" else "meses"
     return f"{edad} {texto_unidad}"
+
+@app.route("/api/estadisticas/avisos-por-dia")
+def api_avisos_por_dia():
+    """API endpoint que retorna la cantidad de avisos por día"""
+    try:
+        datos = db.get_avisos_por_dia()
+        return jsonify({"success": True, "data": datos})
+    except Exception as e:
+        print(f"Error al obtener avisos por día: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/estadisticas/avisos-por-tipo")
+def api_avisos_por_tipo():
+    """API endpoint que retorna la cantidad de avisos por tipo de mascota"""
+    try:
+        datos = db.get_avisos_por_tipo()
+        return jsonify({"success": True, "data": datos})
+    except Exception as e:
+        print(f"Error al obtener avisos por tipo: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/estadisticas/avisos-por-mes")
+def api_avisos_por_mes():
+    """API endpoint que retorna la cantidad de avisos por mes y tipo"""
+    try:
+        datos = db.get_avisos_por_mes_y_tipo()
+        return jsonify({"success": True, "data": datos})
+    except Exception as e:
+        print(f"Error al obtener avisos por mes: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 if __name__ == "__main__":

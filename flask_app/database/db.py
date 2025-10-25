@@ -1,6 +1,6 @@
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text, Enum, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text, Enum, ForeignKey, func, extract
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship, joinedload
-from datetime import datetime
+from datetime import datetime, timedelta
 
 DB_NAME = "tarea2"
 DB_USERNAME = "cc5002"
@@ -203,3 +203,110 @@ def create_contacto(nombre, identificador, aviso_id):
     session.add(nuevo_contacto)
     session.commit()
     session.close()
+
+def get_avisos_por_dia():
+    """
+    Obtiene la cantidad de avisos de adopción agregados por día.
+    Retorna una lista de diccionarios con 'fecha' y 'cantidad'.
+    """
+    session = SessionLocal()
+    try:
+        # Obtener avisos agrupados por fecha (solo día, sin hora)
+        resultados = session.query(
+            func.date(AvisoAdopcion.fecha_ingreso).label('fecha'),
+            func.count(AvisoAdopcion.id).label('cantidad')
+        ).group_by(
+            func.date(AvisoAdopcion.fecha_ingreso)
+        ).order_by(
+            func.date(AvisoAdopcion.fecha_ingreso)
+        ).all()
+        
+        # Convertir a lista de diccionarios
+        datos = [
+            {
+                'fecha': resultado.fecha.strftime('%Y-%m-%d'),
+                'cantidad': resultado.cantidad
+            }
+            for resultado in resultados
+        ]
+        
+        return datos
+    finally:
+        session.close()
+
+
+def get_avisos_por_tipo():
+    """
+    Obtiene el total de avisos de adopción por tipo de mascota (perro/gato).
+    Retorna una lista de diccionarios con 'tipo' y 'cantidad'.
+    """
+    session = SessionLocal()
+    try:
+        resultados = session.query(
+            AvisoAdopcion.tipo,
+            func.count(AvisoAdopcion.id).label('cantidad')
+        ).group_by(
+            AvisoAdopcion.tipo
+        ).all()
+        
+        datos = [
+            {
+                'tipo': resultado.tipo,
+                'cantidad': resultado.cantidad
+            }
+            for resultado in resultados
+        ]
+        
+        return datos
+    finally:
+        session.close()
+
+
+def get_avisos_por_mes_y_tipo():
+    """
+    Obtiene la cantidad de avisos de adopción por mes y tipo de mascota.
+    Retorna una lista de diccionarios con 'año', 'mes', 'tipo' y 'cantidad'.
+    """
+    session = SessionLocal()
+    try:
+        resultados = session.query(
+            extract('year', AvisoAdopcion.fecha_ingreso).label('año'),
+            extract('month', AvisoAdopcion.fecha_ingreso).label('mes'),
+            AvisoAdopcion.tipo,
+            func.count(AvisoAdopcion.id).label('cantidad')
+        ).group_by(
+            extract('year', AvisoAdopcion.fecha_ingreso),
+            extract('month', AvisoAdopcion.fecha_ingreso),
+            AvisoAdopcion.tipo
+        ).order_by(
+            extract('year', AvisoAdopcion.fecha_ingreso),
+            extract('month', AvisoAdopcion.fecha_ingreso)
+        ).all()
+        
+        # Organizar datos por mes
+        datos_por_mes = {}
+        for resultado in resultados:
+            # Crear clave única para el mes (ej: "2025-10")
+            mes_key = f"{int(resultado.año)}-{int(resultado.mes):02d}"
+            
+            if mes_key not in datos_por_mes:
+                datos_por_mes[mes_key] = {
+                    'mes': mes_key,
+                    'año': int(resultado.año),
+                    'mes_num': int(resultado.mes),
+                    'gato': 0,
+                    'perro': 0
+                }
+            
+            # Asignar cantidad según el tipo
+            if resultado.tipo == 'gato':
+                datos_por_mes[mes_key]['gato'] = resultado.cantidad
+            elif resultado.tipo == 'perro':
+                datos_por_mes[mes_key]['perro'] = resultado.cantidad
+        
+        # Convertir a lista ordenada
+        datos = sorted(datos_por_mes.values(), key=lambda x: (x['año'], x['mes_num']))
+        
+        return datos
+    finally:
+        session.close()
