@@ -1,25 +1,19 @@
-// estadisticas.js - Script para generar gráficos de estadísticas
-// Coloca este archivo en: static/js/estadisticas.js
-
 console.log('📊 estadisticas.js cargado');
 
-// NO usar DOMContentLoaded porque el script se carga dinámicamente después de que el DOM ya está listo
-// En su lugar, ejecutar inmediatamente
-
-// Verificar que Highcharts esté disponible
+// Ver que Highcharts esté disponible
 if (typeof Highcharts === 'undefined') {
     console.error('❌ Highcharts no está disponible en estadisticas.js');
 } else {
     console.log('✓ Highcharts disponible en estadisticas.js');
     
-    // Cargar los tres gráficos inmediatamente
+    // Cargar los tres gráficos 
     cargarGraficoAvisosPorDia();
     cargarGraficoAvisosPorTipo();
     cargarGraficoAvisosPorMes();
 }
 
 /**
- * Carga el gráfico de líneas: Avisos por día
+ *Avisos por día
  */
 function cargarGraficoAvisosPorDia() {
     console.log('📈 Cargando gráfico de avisos por día...');
@@ -83,7 +77,7 @@ function cargarGraficoAvisosPorDia() {
                 series: [{
                     name: 'Avisos',
                     data: cantidades,
-                    color: '#5DD9E8'  // 🎨 CAMBIADO: Color cyan/turquesa
+                    color: '#5DD9E8'  
                 }],
                 legend: {
                     enabled: false
@@ -108,7 +102,7 @@ function cargarGraficoAvisosPorDia() {
 }
 
 /**
- * Carga el gráfico de torta: Avisos por tipo de mascota
+ * Avisos por tipo de mascota
  */
 function cargarGraficoAvisosPorTipo() {
     console.log('🥧 Cargando gráfico de avisos por tipo...');
@@ -135,7 +129,7 @@ function cargarGraficoAvisosPorTipo() {
                 return;
             }
             
-            // Preparar datos para Highcharts (formato: [name, y])
+            // Preparar datos para Highcharts 
             const seriesData = data.map(item => ({
                 name: item.tipo.charAt(0).toUpperCase() + item.tipo.slice(1),
                 y: item.cantidad
@@ -162,7 +156,7 @@ function cargarGraficoAvisosPorTipo() {
                             enabled: true,
                             format: '<b>{point.name}</b>: {point.y} ({point.percentage:.1f}%)'
                         },
-                        // 🎨 CAMBIADO: Colores cyan/turquesa para gatos y perros
+                        // colores turquesa
                         colors: ['#5DD9E8', '#3BA4B8']
                     }
                 },
@@ -185,7 +179,7 @@ function cargarGraficoAvisosPorTipo() {
 }
 
 /**
- * Carga el gráfico de barras: Avisos por mes y tipo
+ *  Avisos por mes y tipo
  */
 function cargarGraficoAvisosPorMes() {
     console.log('📊 Cargando gráfico de avisos por mes...');
@@ -214,7 +208,7 @@ function cargarGraficoAvisosPorMes() {
             
             // Preparar datos para Highcharts
             const meses = data.map(item => {
-                // Convertir "2025-10" a "Oct 2025"
+                // Convertir fecha
                 const [año, mes] = item.mes.split('-');
                 const nombresMeses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 
                                       'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
@@ -259,11 +253,11 @@ function cargarGraficoAvisosPorMes() {
                 series: [{
                     name: 'Gatos',
                     data: datosGatos,
-                    color: '#5DD9E8'  // 🎨 CAMBIADO: Color cyan claro para gatos
+                    color: '#5DD9E8'  
                 }, {
                     name: 'Perros',
                     data: datosPerros,
-                    color: '#3BA4B8'  // 🎨 CAMBIADO: Color cyan oscuro para perros
+                    color: '#3BA4B8' 
                 }],
                 credits: {
                     enabled: false
@@ -279,7 +273,7 @@ function cargarGraficoAvisosPorMes() {
 }
 
 /**
- * Muestra un mensaje de error en un contenedor
+ * error en un contenedor
  */
 function mostrarMensajeError(containerId, mensaje) {
     const container = document.getElementById(containerId);

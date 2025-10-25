@@ -47,12 +47,12 @@
 {% endblock %}
 
 {% block scripts %}
-<!-- PASO 1: Cargar Highcharts desde CDN -->
+<!--Cargar Highcharts desde CDN -->
 <script src="https://code.highcharts.com/highcharts.js"></script>
 
-<!-- PASO 2: Cargar nuestro script DESPUÉS de que Highcharts esté listo -->
+<!-- Cargar script DESPUÉS de que Highcharts esté listo -->
 <script>
-// Esta función se ejecuta cuando Highcharts ya está disponible
+//Highcharts ya está disponible
 function loadEstadisticasScript() {
     if (typeof Highcharts === 'undefined') {
         console.log('Esperando a Highcharts...');
