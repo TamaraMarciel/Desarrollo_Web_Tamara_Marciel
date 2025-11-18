@@ -1,0 +1,119 @@
+/* Estilos adicionales para el modal de evaluación */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s;
+    overflow: auto;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background-color: #1e252d;
+    margin: 15% auto;
+    padding: 2em;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    animation: slideIn 0.3s;
+    position: relative;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 20px;
+}
+
+.close:hover,
+.close:focus {
+    color: #fff;
+}
+
+.modal-content h2 {
+    color: #fff;
+    margin-bottom: 1em;
+}
+
+#modal-mensaje {
+    color: #ccc;
+    margin-bottom: 1.5em;
+}
+
+.notas-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 1.5em;
+}
+
+.mensaje {
+    padding: 1em;
+    border-radius: 5px;
+    margin-top: 1em;
+    text-align: center;
+    font-weight: 500;
+}
+
+.mensaje.success {
+    background-color: rgba(39, 174, 96, 0.2);
+    color: #27ae60;
+    border: 1px solid #27ae60;
+}
+
+.mensaje.error {
+    background-color: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+}
+
+.nota-cell {
+    font-weight: 600;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+@media screen and (max-width: 736px) {
+    .modal-content {
+        margin: 30% auto;
+        width: 95%;
+    }
+
+    .notas-container {
+        gap: 5px;
+    }
+
+    .notas-container .button {
+        padding: 0.5em 0.75em;
+        font-size: 0.9em;
+    }
+}
